@@ -1,13 +1,13 @@
 defmodule ExCrypto.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/ntrepid8/ex_crypto"
+  @source_url "https://github.com/awesome-elixir/awesome_ex_crypto"
   @version "0.10.0"
 
   def project do
     [
-      app: :ex_crypto,
-      name: "ExCrypto",
+      app: :awesome_ex_crypto,
+      name: "AwesomeExCrypto",
       version: @version,
       elixir: ">= 1.4.2",
       package: package(),
@@ -52,10 +52,10 @@ defmodule ExCrypto.Mixfile do
         "A wrapper around the Erlang Crypto module with sensible defaults " <>
           "for common tasks.",
       files: ["lib", "mix.exs", "README*", "LICENSE*", "CHANGELOG*"],
-      maintainers: ["Josh Austin"],
+      maintainers: ["Raul Zavaczki", "Josh Austin"],
       licenses: ["MIT"],
       links: %{
-        "Changelog" => "https://hexdocs.pm/ex_crypto/changelog.html",
+        "Changelog" => "https://hexdocs.pm/awesome_ex_crypto/changelog.html",
         "GitHub" => @source_url
       }
     ]

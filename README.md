@@ -9,6 +9,9 @@
 
 The goal of `ExCrypto` and `ExPublicKey` is to expose a subset of the functionality from the Erlang modules `crypto` and `public_key` so that writing secure Elixir applications is a little bit easier without being overwhelming. In many functions some sane defaults are provided to decrease the complexity of implementing those functions in your own code.
 
+⚠️ Note: This is a fork of [this awesome github repository](https://github.com/ntrepid8/ex_crypto). The original repository is unfortunately unmaintained, so we decided to adopt it.
+✅ This repository will be kept updated for Elixir v1.11+ and Erlang OTP v21.3+
+
 ## Using ExPublicKey
 
 The `ExPublicKey` module provides functions for working with RSA public/private key operations. There are a couple common uses for public-key cryptography:
