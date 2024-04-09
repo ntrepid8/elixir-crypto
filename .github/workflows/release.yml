@@ -1,5 +1,6 @@
-name: CI/CD for master branch
-on: [push, pull_request]
+name: Release pipeline
+on:
+  workflow_dispatch:
 permissions:
   contents: read
 
@@ -20,7 +21,7 @@ jobs:
             otp: 23.3
           - elixir: 1.14.5
             otp: 25.3
-          - elixir: 1.16.0
+          - elixir: 1.16.2
             otp: 26.2
     steps:
       - uses: actions/checkout@v4
@@ -42,3 +43,23 @@ jobs:
         run: mix deps.get --only test
       - name: Run tests
         run: mix test
+
+  prepare_release:
+    name: Prepare release
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        include:
+          - elixir: 1.16.2
+            otp: 26.2
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - name: Make sure hex is updated
+        run: mix local.hex
+      - name: Publish package
+        run: HEX_API_KEY=${{secrets.HEX_API_KEY}} mix hex.publish --yes

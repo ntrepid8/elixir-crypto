@@ -9,7 +9,7 @@ defmodule ExCrypto.Mixfile do
       app: :awesome_ex_crypto,
       name: "AwesomeExCrypto",
       version: @version,
-      elixir: ">= 1.4.2",
+      elixir: "~> 1.11",
       package: package(),
       deps: deps(),
       aliases: aliases(),
