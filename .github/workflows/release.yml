@@ -5,9 +5,9 @@ permissions:
   contents: read
 
 jobs:
-  mix_test:
+  mix_test_old:
     name: Build and Test (OTP ${{matrix.otp}} | Elixir ${{matrix.elixir}})
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
     env:
       MIX_ENV: test
     strategy:
@@ -19,6 +19,37 @@ jobs:
             otp: 22.3.4
           - elixir: 1.12.3
             otp: 23.3.4
+          - elixir: 1.13.4
+            otp: 24.3.4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - name: Restore deps and _build cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            deps
+            _build
+          key: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}
+      - name: Install dependencies
+        run: mix deps.get --only test
+      - name: Run tests
+        run: mix test
+
+  mix_test:
+    name: Build and Test (OTP ${{matrix.otp}} | Elixir ${{matrix.elixir}})
+    runs-on: ubuntu-22.04
+    env:
+      MIX_ENV: test
+    strategy:
+      matrix:
+        include:
           - elixir: 1.13.4
             otp: 24.3.4
           - elixir: 1.14.5
@@ -49,7 +80,7 @@ jobs:
   release:
     name: Prepare release
     runs-on: ubuntu-22.04
-    needs: [mix_test] 
+    needs: [mix_test, mix_test_old]
     strategy:
       matrix:
         include:
